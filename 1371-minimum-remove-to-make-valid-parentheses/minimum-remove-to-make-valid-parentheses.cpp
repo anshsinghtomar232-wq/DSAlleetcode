@@ -1,35 +1,36 @@
 class Solution {
 public:
     string minRemoveToMakeValid(string s) {
-       int n=s.length();
-       stack<int> st;
-       unordered_set<int> remove_idx;
-
-       for(int i=0;i<n;i++){
-        if(s[i]=='('){
-            st.push(i);
-        }else if(s[i]==')'){
-            if(st.empty()){
-                 remove_idx.insert(i);
-            }else{
-                st.pop();
-            }
-        }
-       }
-
-       while(!st.empty()){
-        remove_idx.insert(st.top());
-        st.pop();
-       } 
-
-       string result="";
-
-       for(int i=0;i<n;i++){
-        if(remove_idx.find(i)==remove_idx.end()){
+        string result="";
+        int open=0;
+        for(int i=0;i<s.length();i++){
+        if(s[i]>='a' && s[i]<='z'){
+            result.push_back(s[i]);
+        } else if(s[i]=='('){
+            result.push_back(s[i]);
+            open++;
+        }else if(open>0){
+            open--;
             result.push_back(s[i]);
         }
+
         }
-        return result;
-       
+
+        string fr="";
+        int close=0;
+        for(int i=result.length()-1;i>=0;i--){
+            if(result[i]>='a' && result[i]<='z'){
+                fr.push_back(result[i]);
+            }else if(result[i]==')'){
+                close++;
+                fr.push_back(result[i]);
+            }else if(close>0){
+                close--;
+                fr.push_back(result[i]);
+            }
+        }
+        reverse(fr.begin(),fr.end());
+        return fr;
+        
     }
 };
