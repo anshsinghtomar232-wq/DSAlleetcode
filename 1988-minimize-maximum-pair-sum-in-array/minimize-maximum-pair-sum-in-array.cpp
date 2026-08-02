@@ -6,10 +6,9 @@ public:
       int j=nums.size()-1;
       int result=0;
       while(i<j){
-        int sum=nums[i]+nums[j];
+        int sum=nums[i++]+nums[j--];
         result=max(result,sum);
-        i++;
-        j--;
+        
       } 
       return result;
     }
