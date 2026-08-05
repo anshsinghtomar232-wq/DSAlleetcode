@@ -1,44 +1,32 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
+
 class Solution {
 public:
-    void createmap(vector<int> inorder,map<int,int>&nodetoindex,int n){
-        for(int i=0;i<n;i++){
-            nodetoindex[inorder[i]]=i;
-        }
-    }
-    TreeNode*solve(vector<int> inorder,vector<int> postorder,int &index,int inorderstart,int inorderend,int n,map<int,int> &nodetoindex){
-        if(index<0||inorderstart>inorderend){
-            return NULL;
+    TreeNode* solve(const vector<int>& inorder, const vector<int>& postorder, int& index, 
+                   int inorderstart, int inorderend, unordered_map<int, int>& nodetoindex) {
+        if (index < 0 || inorderstart > inorderend) {
+            return nullptr;
         }
 
-        int element=postorder[index--];
-        TreeNode* root= new TreeNode(element);
-        int position=nodetoindex[element];
+        int element = postorder[index--];
+        TreeNode* root = new TreeNode(element);
+        int position = nodetoindex[element];
 
-      root->right=  solve(inorder,postorder,index,position+1,inorderend,n,nodetoindex);
+        // Right subtree must be constructed first because postorder visits Right before Left when traversing backwards
+        root->right = solve(inorder, postorder, index, position + 1, inorderend, nodetoindex);
+        root->left = solve(inorder, postorder, index, inorderstart, position - 1, nodetoindex);
 
-      root->left=solve(inorder,postorder,index,inorderstart,position-1,n,nodetoindex);
-      return  root;
+        return root;
     }
-
-
 
     TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
-         int postorderindex=postorder.size()-1;
-         int n=inorder.size();
-         map<int,int> nodetoindex;
-         createmap(inorder,nodetoindex,n);
-         TreeNode*ans=solve(inorder,postorder,postorderindex,0,n-1,n,nodetoindex);
-         return ans;
+        int n = inorder.size();
+        int postorderindex = n - 1;
+        
+        unordered_map<int, int> nodetoindex;
+        for (int i = 0; i < n; i++) {
+            nodetoindex[inorder[i]] = i;
+        }
+
+        return solve(inorder, postorder, postorderindex, 0, n - 1, nodetoindex);
     }
 };
