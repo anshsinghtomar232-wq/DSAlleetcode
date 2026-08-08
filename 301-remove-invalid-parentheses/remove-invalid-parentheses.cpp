@@ -3,20 +3,18 @@ public:
    vector<string> res;
    unordered_map<string,int> mp;
 
-   int getinvalid(string s){
-    stack<char> st;
-    int i=0;
-    while(i<s.size()){
-        if(s[i]=='(')
+   int getinvalid(string &s){
+   stack<char> st;
+
+   for(char &ch:s){
+    if(ch=='('){
         st.push('(');
-        else if(s[i]==')'){
-            if(st.size()>0 && st.top()=='(')
-            st.pop();
-            else
-            st.push(')');
-        }
-        i++;
+    }else if(ch==')' &&  st.size()>0 && st.top()=='('){
+        st.pop();
+    }else if(ch==')'){
+        st.push(')');
     }
+   }
     return st.size();
    }
    void solve(string s, int mininv){
