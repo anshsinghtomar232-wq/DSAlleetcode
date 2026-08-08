@@ -1,6 +1,6 @@
 class Solution {
 public:
-   vector<string> res;
+   
    unordered_map<string,int> mp;
 
    int getinvalid(string &s){
@@ -17,7 +17,7 @@ public:
    }
     return st.size();
    }
-   void solve(string s, int mininv){
+   void solve(string s, int mininv, vector<string> &res){
     if(mp[s] !=0)
     return ;
     else
@@ -34,7 +34,7 @@ public:
     for( int i=0; i<s.size();i++){
         string  left =s.substr(0,i);
         string  right=s.substr(i+1);
-        solve(left+right,mininv-1);
+        solve(left+right,mininv-1,res);
     }
     return ;
    }
@@ -42,7 +42,8 @@ public:
 
 
     vector<string> removeInvalidParentheses(string s) {
-        solve(s,getinvalid(s));
+     vector<string> res;
+        solve(s,getinvalid(s),res);
         return res;
     }
 };
