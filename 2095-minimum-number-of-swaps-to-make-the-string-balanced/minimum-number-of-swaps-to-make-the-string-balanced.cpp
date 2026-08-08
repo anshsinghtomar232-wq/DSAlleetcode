@@ -1,15 +1,16 @@
 class Solution {
 public:
     int minSwaps(string s) {
-        stack<int> st;
-
+        int n=s.length();
+        int count=0;
         for(char &ch:s){
             if(ch=='['){
-                st.push(ch);
-            }else if(!st.empty()){
-                st.pop();
+                count++;
+            }else if(ch==']' && count>0){
+                count--;
             }
+           
         }
-        return(st.size()+1)/2;
+        return (count+1)/2;
     }
 };
