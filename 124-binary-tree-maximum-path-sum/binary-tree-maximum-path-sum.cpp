@@ -10,29 +10,29 @@
  * };
  */
 class Solution {
-private:
-    int maxSum = INT_MIN;
-
-    int maxGain(TreeNode* node) {
-        if (node == nullptr) return 0;
-
-        // Max sum from left and right subtrees; ignore negative contributions
-        int leftGain = max(maxGain(node->left), 0);
-        int rightGain = max(maxGain(node->right), 0);
-
-        // Path sum if current node is the highest node (turning point) of the path
-        int currentPathSum = node->val + leftGain + rightGain;
-
-        // Update global maximum
-        maxSum = max(maxSum, currentPathSum);
-
-        // Return max path sum extending to parent (can only choose 1 branch)
-        return node->val + max(leftGain, rightGain);
-    }
-
 public:
+      int maxSum=INT_MIN;
+
+      int maxgain(TreeNode*root){
+         if(root==NULL)
+         return 0;
+
+
+         int left=max(0,maxgain(root->left));
+         int right=max(0,maxgain(root->right));
+
+         int currentpathsum= root->val+left+right;
+
+         maxSum=max(maxSum,currentpathsum);
+
+         return  root->val+max(left,right);
+
+
+      }
+
+
     int maxPathSum(TreeNode* root) {
-        maxGain(root);
-        return maxSum;
+        maxgain(root);
+          return maxSum;
     }
 };
