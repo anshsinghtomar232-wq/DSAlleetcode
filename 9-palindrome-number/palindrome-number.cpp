@@ -5,7 +5,7 @@ public:
             return false;
         }
         
-        long long rev = 0;
+        long  rev = 0;
         int num = x;
         
         while(num != 0) {
